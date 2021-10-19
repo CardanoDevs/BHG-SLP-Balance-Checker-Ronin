@@ -4,8 +4,6 @@ import { MDBDataTableV5 } from 'mdbreact';
 import { database } from './firebase/firebase';
 
 
-
-
 class WalletList extends Component {
     constructor(props) {
         super(props)
@@ -14,8 +12,6 @@ class WalletList extends Component {
             newAddress : '',
             prevScholaName : '',
             newScholaName : '',
-            prevManager : '',
-            newManager : '',
             editKey: '',
             walletLists : [],
             show : false,
@@ -46,7 +42,6 @@ class WalletList extends Component {
                             key,
                             address : value.address,
                             scholaName : value.scholaName,
-                            manager   : value.manager
                         })
                     })
                 }
@@ -80,7 +75,6 @@ class WalletList extends Component {
         const load = {
           address : this.state.newAddress,
           scholaName : this.state.newScholaName,
-          manager   : this.state.newManager
         }
 
         var updates = {}
@@ -124,12 +118,6 @@ class WalletList extends Component {
                 width: 270
               },
               {
-                label: 'Manager',
-                field: 'manager',
-                sort: 'asc',
-                width: 270
-              },
-              {
                 label: 'Delete',
                 field: 'Actions',
                 sort: 'asc',
@@ -160,7 +148,6 @@ function Example(props) {
 
   var  addAddress    = ''
   var  addScholaName = ''
-  var  addManager    = ''
 
 
   const [show, setShow] = useState(false);
@@ -180,7 +167,6 @@ function Example(props) {
         const walletList= {
         address    : addAddress,
         scholaName : addScholaName,
-        manager    : addManager
         }
 
         var userListRef = database.ref("RoninWallet")
@@ -198,10 +184,7 @@ function Example(props) {
     addScholaName  = e.target.value
   }
 
-  const handleManager = async (e) => {
-    addManager  = e.target.value
-  }
-
+  
 
   return (
     <>
@@ -229,13 +212,6 @@ function Example(props) {
           </InputGroup.Text>
           <FormControl id="basic-url1" aria-describedby="basic-addon3"  type="text" 
           placeholder="ronin:..." defaultValue={addAddress} onChange={handleAddress} />
-        </InputGroup>
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon3">
-            Manager
-          </InputGroup.Text>
-          <FormControl id="basic-url1" aria-describedby="basic-addon3"  type="text" 
-          placeholder="%" defaultValue={addManager} onChange={handleManager} />
         </InputGroup>
         </Modal.Body>
         <Modal.Footer>
