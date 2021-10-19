@@ -10,11 +10,7 @@
 ---
 
 ## USAGE,
-
  - install node module with 
-
      npm install
-
  - run bot
-
     npm start

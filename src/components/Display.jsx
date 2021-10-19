@@ -18,8 +18,8 @@ class Display extends Component {
     }
   }
 
+
   async componentWillMount() {
-    await this.loadAddresses()
   }
 
   async loadAddresses(){
@@ -41,13 +41,25 @@ class Display extends Component {
       this.setState({
         tokenAddresses : walletList
       })
+      this.getValue();
     }
   }
 
   async getValue(){
+    await this.loadAddresses()
+    let url = "https://game-api.axie.technology/api/v1/0x25988467e596b9295ca035526103cdb857d89f91"
+      await fetch(url).then(res => res.json())
+      .then(
+        async (res) => {
+          let s = new Date(res.cache_last_updated ).toLocaleDateString("en-US")
+          let d = new Date(res.cache_last_updated ).toLocaleTimeString("en-US")   
+          this.setState({
+            refreshTime : d + "  " + s
+          })
+        })
+
+
     for (let i = 0; i < this.state.tokenAddresses.length; i++) {
-
-
       let address, scholaName, slp, claimTime, rank, elo , userName, winRate, winTotal, claimSlp
       address = this.state.tokenAddresses[i]['address']
       scholaName = this.state.tokenAddresses[i]['scholaName']
@@ -59,18 +71,12 @@ class Display extends Component {
         .then(res => res.json())
         .then(
           async (res) => {
-
-
-
             var ts = Math.round((new Date()).getTime() / 1000);
-
             if ( res.refreshTime > ts ) {
               claimTime = 'Claim Now!'
             } else {
               claimTime = "Not Yet"
             }
-
-
             console.log(res)
             slp = res.total_slp
             rank = res.rank
@@ -79,17 +85,9 @@ class Display extends Component {
             winRate = res.win_rate
             winTotal = res.win_total
             claimSlp = res.lifetime_slp
-
-            
-            let s = new Date(res.cache_last_updated ).toLocaleDateString("en-US")
-            var d = new Date(res.cache_last_updated ).toLocaleTimeString("en-US")
-
-                      
-            this.setState({
-              refreshTime : d +" " +  s 
-            })
-        })
-      let tableData = {
+          })
+      
+       let tableData = {
         scholaName : scholaName,
         address    : this.state.tokenAddresses[i]['address'],
         slp        : slp,
@@ -99,8 +97,9 @@ class Display extends Component {
         userName   : userName,
         winRate    : winRate,
         winTotal   : winTotal,
-
       }
+
+
       let tableDatas = this.state.tableDatas
       tableDatas[i] = tableData
 
@@ -108,10 +107,16 @@ class Display extends Component {
         tableDatas : tableDatas,
       })
     }
+
     this.loadAddresses()
     setTimeout(() => {this.getValue()
     }, 60000);
+
   }
+
+
+
+
   render() {
       var rowstable = this.state.tableDatas
       const datatable = {
@@ -159,7 +164,7 @@ class Display extends Component {
         <div>
           <div className = "row">
             <div className = "col-3"> <h1> Schoal Data Table</h1></div>
-            <div className = "col-4">  <Button variant="primary"   onClick={()=>this.getValue()}>Get Value  </Button></div>
+            <div className = "col-4">  <Button variant="primary"   onClick={()=>this.loadAddresses()}>Get Value  </Button></div>
             <div className = "col-5"> <h2>Last Update Time : {this.state.refreshTime}</h2> </div>
           </div><hr/>
         <br/>

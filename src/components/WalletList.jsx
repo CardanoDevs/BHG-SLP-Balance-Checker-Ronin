@@ -102,7 +102,6 @@ class WalletList extends Component {
                                    <Button variant="outline-danger"  size = "sm" onClick= {()=>this.deleteWalletList(walletList.key)}> Delete</Button>{' '}
                               </div>
         return walletList
-      
       })
           const data = {
             columns: [
@@ -141,7 +140,7 @@ class WalletList extends Component {
           };
         return (
             <div>
-                <h2>Token List</h2>
+                <h2>Wallet List</h2>
                 <hr/><br/><br/>
                 <Example onReload={this.onReload} walletData = {this.state.walletLists}/>
                 <br/><br/>
@@ -207,7 +206,7 @@ function Example(props) {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Add Token
+        Add Wallet
       </Button>
 
       <Modal show={show} onHide={handleClose}>
