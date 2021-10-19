@@ -1,17 +1,12 @@
 # Get SLP Balance (claimed and unclaimed)
 
-## Step 1 Get unclaimed SLP From Contract
+## Step 1 input ronin address and schola name in address manage
 
----
-     SLP token address : 0xa8754b9Fa15fc18BB59458815510E40a12cD2014
-     SLP token get balance :  [{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balanceOf","outputs":
-                              [{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
----
-## Step 2 Get claimed SLP from API
+## Step 2 Get data form API
 
 ---
      url = "https://game-api.axie.technology/api/v1/" + address
-     claimed slp is json.lifetime_slp 
+     claimed slp is json.lifetime_slp
 ---
 
 ## USAGE,
