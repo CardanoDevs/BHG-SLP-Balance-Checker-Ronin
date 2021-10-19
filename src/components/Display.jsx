@@ -48,7 +48,7 @@ class Display extends Component {
     for (let i = 0; i < this.state.tokenAddresses.length; i++) {
 
 
-      let address, scholaName, slp, claimTime, rank, elo , userName, winRate, winTotal
+      let address, scholaName, slp, claimTime, rank, elo , userName, winRate, winTotal, claimSlp
       address = this.state.tokenAddresses[i]['address']
       scholaName = this.state.tokenAddresses[i]['scholaName']
       if (address.includes('ronin:')){
@@ -78,15 +78,15 @@ class Display extends Component {
             userName = res.name
             winRate = res.win_rate
             winTotal = res.win_total
+            claimSlp = res.lifetime_slp
 
-            let unix_timestamp = res.cache_last_updated
-            var date = new Date(unix_timestamp * 1000);
-            var hours = date.getHours();
-            var minutes = "0" + date.getMinutes();
-            var seconds = "0" + date.getSeconds();
-            var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            
+            let s = new Date(res.cache_last_updated ).toLocaleDateString("en-US")
+            var d = new Date(res.cache_last_updated ).toLocaleTimeString("en-US")
+
+                      
             this.setState({
-              refreshTime : formattedTime
+              refreshTime : d +" " +  s 
             })
         })
       let tableData = {
@@ -98,7 +98,8 @@ class Display extends Component {
         elo        : elo,
         userName   : userName,
         winRate    : winRate,
-        winTotal   : winTotal
+        winTotal   : winTotal,
+
       }
       let tableDatas = this.state.tableDatas
       tableDatas[i] = tableData
@@ -158,8 +159,8 @@ class Display extends Component {
         <div>
           <div className = "row">
             <div className = "col-3"> <h1> Schoal Data Table</h1></div>
-            <div className = "col-5">  <Button variant="primary"   onClick={()=>this.getValue()}>Get Value  </Button></div>
-            <div className = "col-4"> <h2>Last Updata Time : {this.state.refreshTime}</h2> </div>
+            <div className = "col-4">  <Button variant="primary"   onClick={()=>this.getValue()}>Get Value  </Button></div>
+            <div className = "col-5"> <h2>Last Update Time : {this.state.refreshTime}</h2> </div>
           </div><hr/>
         <br/>
           <MDBDataTableV5 hover entriesOptions={[10,20,50,100,200,500,1000]} entries={50} pagesAmount={10} data={datatable} materialSearch/>
